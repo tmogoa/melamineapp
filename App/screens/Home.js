@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, SafeAreaView, Text, ScrollView } from "react-native";
 import { colors } from "../assets/colors/colors";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, FontAwesome } from "@expo/vector-icons";
 import tw from "twrnc";
 import logo from "../../assets/icon.png";
 import IconButton from "../components/IconButton";
@@ -13,7 +13,7 @@ const Home = ({ navigation }) => {
     return (
         <SafeAreaView style={tw`flex-1`}>
             <ScrollView style={tw`flex-1 flex-col pt-13 px-5`}>
-                <View style={tw`flex-row justify-between`}>
+                <View style={tw`flex-row justify-between items-start`}>
                     <IconButton
                         icon={
                             <Ionicons
@@ -50,10 +50,20 @@ const Home = ({ navigation }) => {
                             tw`text-5xl underline`,
                         ]}
                     >
-                        Melanoma
+                        Melanoma.
                     </Text>
                     <View style={tw`mt-6 flex-col items-center`}>
-                        <TapButton />
+                        <TapButton
+                            onPress={() => navigation.navigate("TakePhoto")}
+                            sizingPadding={8}
+                            icon={
+                                <FontAwesome
+                                    name="camera"
+                                    size={36}
+                                    color={colors.white}
+                                />
+                            }
+                        />
                         <Text
                             style={[
                                 tw`text-sm mt-2 text-gray-600`,

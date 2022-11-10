@@ -15,6 +15,7 @@ import tw from "twrnc";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
+import TakePhoto from "./screens/TakePhoto";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -32,27 +33,20 @@ export default function App() {
         <NavigationContainer>
             <StatusBar style="light" backgroundColor={colors.primary} />
             <Stack.Navigator
-                initialRouteName="Login"
+                initialRouteName="Home"
                 // screenOptions={{ headerShown: false }}
             >
                 <Stack.Screen
                     name="Home"
                     component={Home}
                     options={{
-                        headerTitle: (props) => (
-                            <>
-                                <Text
-                                    style={[
-                                        {
-                                            fontFamily: "Inter_400Regular",
-                                        },
-                                        tw`text-base`,
-                                    ]}
-                                >
-                                    Home
-                                </Text>
-                            </>
-                        ),
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="TakePhoto"
+                    component={TakePhoto}
+                    options={{
                         headerShown: false,
                     }}
                 />
