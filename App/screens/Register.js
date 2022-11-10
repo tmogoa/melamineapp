@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Image, View, SafeAreaView, ScrollView } from "react-native";
-import Input from "../components/Input";
+import { View, SafeAreaView, ScrollView, Image, Text } from "react-native";
 import tw from "twrnc";
-import Button from "../components/Button";
-import logo from "../../assets/adaptive-icon.png";
+import Input from "../components/Input";
 import TextButton from "../components/TextButton";
+import logo from "../../assets/adaptive-icon.png";
+import Button from "../components/Button";
+import { fonts } from "../assets/fonts/fonts";
 import OrText from "../components/OrText";
 
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
     const [email, setEmail] = useState("mogoa.tonny@gmail.com");
     const [password, setPassword] = useState("1234");
     return (
@@ -24,20 +25,27 @@ const Login = ({ navigation }) => {
                         onChangeText={setEmail}
                     />
                     <Input
-                        label="Password"
-                        placeholder="Enter password"
+                        label="New password"
+                        placeholder="Choose a password"
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                    <Input
+                        label="Confirm password"
+                        placeholder="Repeat the password"
                         secureTextEntry={true}
                         value={password}
                         onChangeText={setPassword}
                     />
                     <Button
-                        label="Login"
+                        label="Register"
                         onPress={() => navigation.navigate("Home")}
                     />
                     <OrText />
                     <TextButton
-                        label="Register"
-                        onPress={() => navigation.navigate("Register")}
+                        label="Login"
+                        onPress={() => navigation.navigate("Login")}
                     />
                 </View>
             </ScrollView>
@@ -45,4 +53,4 @@ const Login = ({ navigation }) => {
     );
 };
 
-export default Login;
+export default Register;

@@ -1,23 +1,75 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Image, SafeAreaView, Text, ScrollView } from "react-native";
 import { colors } from "../assets/colors/colors";
-const Home = () => {
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import tw from "twrnc";
+import logo from "../../assets/icon.png";
+import IconButton from "../components/IconButton";
+import { fonts } from "../assets/fonts/fonts";
+import TapButton from "../components/TapButton";
+import Button from "../components/Button";
+
+const Home = ({ navigation }) => {
     return (
-        <View style={styles.container}>
-            <Text>Sup</Text>
-            <StatusBar style="light" backgroundColor={colors.primary} />
-        </View>
+        <SafeAreaView style={tw`flex-1`}>
+            <ScrollView style={tw`flex-1 flex-col pt-13 px-5`}>
+                <View style={tw`flex-row justify-between`}>
+                    <IconButton
+                        icon={
+                            <Ionicons
+                                name="ios-menu-outline"
+                                size={28}
+                                color="black"
+                            />
+                        }
+                    />
+                    <Image source={logo} style={tw`w-24 h-24`} />
+                    <IconButton
+                        icon={
+                            <AntDesign name="logout" size={24} color="black" />
+                        }
+                        onPress={() => navigation.navigate("Login")}
+                    />
+                </View>
+                <View style={tw`flex-col justify-center items-center mt-7`}>
+                    <Text
+                        style={[
+                            {
+                                fontFamily: fonts.interRegular,
+                            },
+                            tw`text-2xl mb-3 text-gray-600`,
+                        ]}
+                    >
+                        Tap to check for,
+                    </Text>
+                    <Text
+                        style={[
+                            {
+                                fontFamily: fonts.interSemibold,
+                            },
+                            tw`text-5xl underline`,
+                        ]}
+                    >
+                        Melanoma
+                    </Text>
+                    <View style={tw`mt-6 flex-col items-center`}>
+                        <TapButton />
+                        <Text
+                            style={[
+                                tw`text-sm mt-2 text-gray-600`,
+                                { fontFamily: fonts.interMedium },
+                            ]}
+                        >
+                            OR
+                        </Text>
+                    </View>
+                    <View style={tw`w-full p-2`}>
+                        <Button label="Select image" />
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
 
 export default Home;
