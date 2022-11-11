@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import tw from "twrnc";
 import { colors } from "../assets/colors/colors";
 import { fonts } from "../assets/fonts/fonts";
 
-const Button = ({ label, onPress }) => {
+const Button = ({ label, onPress, isLoading }) => {
     return (
         <TouchableOpacity style={tw`p-2`} onPress={onPress}>
             <View
@@ -15,14 +15,18 @@ const Button = ({ label, onPress }) => {
                     tw`px-4 py-4 rounded flex justify-center items-center shadow`,
                 ]}
             >
-                <Text
-                    style={[
-                        { fontFamily: fonts.interMedium },
-                        tw`text-white text-base`,
-                    ]}
-                >
-                    {label}
-                </Text>
+                {isLoading ? (
+                    <ActivityIndicator size="small" color={colors.white} />
+                ) : (
+                    <Text
+                        style={[
+                            { fontFamily: fonts.interMedium },
+                            tw`text-white text-base`,
+                        ]}
+                    >
+                        {label}
+                    </Text>
+                )}
             </View>
         </TouchableOpacity>
     );

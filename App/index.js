@@ -15,7 +15,9 @@ import tw from "twrnc";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
-import TakePhoto from "./screens/TakePhoto";
+import RequestScreen from "./screens/RequestScreen";
+import ResultScreen from "./screens/ResultScreen";
+import PastPredictionsScreen from "./screens/PastPredictionsScreen";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -44,8 +46,22 @@ export default function App() {
                     }}
                 />
                 <Stack.Screen
-                    name="TakePhoto"
-                    component={TakePhoto}
+                    name="RequestScreen"
+                    component={RequestScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="ResultScreen"
+                    component={ResultScreen}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="PastPredictionsScreen"
+                    component={PastPredictionsScreen}
                     options={{
                         headerShown: false,
                     }}

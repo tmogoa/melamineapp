@@ -1,5 +1,12 @@
-import React from "react";
-import { View, Image, SafeAreaView, Text, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+    View,
+    Image,
+    SafeAreaView,
+    Text,
+    ScrollView,
+    ActivityIndicator,
+} from "react-native";
 import { colors } from "../assets/colors/colors";
 import { AntDesign, Ionicons, FontAwesome } from "@expo/vector-icons";
 import tw from "twrnc";
@@ -8,8 +15,49 @@ import IconButton from "../components/IconButton";
 import { fonts } from "../assets/fonts/fonts";
 import TapButton from "../components/TapButton";
 import Button from "../components/Button";
+import * as ImagePicker from "expo-image-picker";
 
 const Home = ({ navigation }) => {
+    const [image, setImage] = useState();
+    const [isGettingImage, setIsGettingImage] = useState(false);
+    const [isFromCamera, setIsFromCamera] = useState(true);
+    const options = {
+        allowsEditing: true,
+        aspect: [4, 3],
+        exif: false,
+        quality: 1,
+    };
+
+    useEffect(() => {
+        if (image) {
+            navigation.navigate("RequestScreen", { image: image });
+        }
+    }, [image]);
+
+    let launchCameraAsync = async () => {
+        setIsGettingImage(true);
+        setIsFromCamera(true);
+        let result = await ImagePicker.launchCameraAsync(options);
+        if (result.cancelled) {
+            setIsGettingImage(false);
+            return;
+        }
+        setImage(result);
+        setIsGettingImage(false);
+    };
+
+    let launchImagePickerAsync = async () => {
+        setIsGettingImage(true);
+        setIsFromCamera(false);
+        let result = await ImagePicker.launchImageLibraryAsync(options);
+        if (result.cancelled) {
+            setIsGettingImage(false);
+            return;
+        }
+        setImage(result);
+        setIsGettingImage(false);
+    };
+
     return (
         <SafeAreaView style={tw`flex-1`}>
             <ScrollView style={tw`flex-1 flex-col pt-13 px-5`}>
@@ -21,6 +69,9 @@ const Home = ({ navigation }) => {
                                 size={28}
                                 color="black"
                             />
+                        }
+                        onPress={() =>
+                            navigation.navigate("PastPredictionsScreen")
                         }
                     />
                     <Image source={logo} style={tw`w-24 h-24`} />
@@ -54,14 +105,21 @@ const Home = ({ navigation }) => {
                     </Text>
                     <View style={tw`mt-6 flex-col items-center`}>
                         <TapButton
-                            onPress={() => navigation.navigate("TakePhoto")}
+                            onPress={launchCameraAsync}
                             sizingPadding={8}
                             icon={
-                                <FontAwesome
-                                    name="camera"
-                                    size={36}
-                                    color={colors.white}
-                                />
+                                isFromCamera && isGettingImage ? (
+                                    <ActivityIndicator
+                                        size="small"
+                                        color={colors.white}
+                                    />
+                                ) : (
+                                    <FontAwesome
+                                        name="camera"
+                                        size={36}
+                                        color={colors.white}
+                                    />
+                                )
                             }
                         />
                         <Text
@@ -74,7 +132,11 @@ const Home = ({ navigation }) => {
                         </Text>
                     </View>
                     <View style={tw`w-full p-2`}>
-                        <Button label="Select image" />
+                        <Button
+                            label="Select image"
+                            onPress={launchImagePickerAsync}
+                            isLoading={isGettingImage && !isFromCamera}
+                        />
                     </View>
                 </View>
             </ScrollView>
