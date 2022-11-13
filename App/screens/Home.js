@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
     View,
     Image,
@@ -16,8 +16,11 @@ import { fonts } from "../assets/fonts/fonts";
 import TapButton from "../components/TapButton";
 import Button from "../components/Button";
 import * as ImagePicker from "expo-image-picker";
+import { AppContext } from "../util/AppContext";
+import { api } from "../util/api";
 
 const Home = ({ navigation }) => {
+    const { destroyUser, user } = useContext(AppContext);
     const [image, setImage] = useState();
     const [isGettingImage, setIsGettingImage] = useState(false);
     const [isFromCamera, setIsFromCamera] = useState(true);
@@ -40,6 +43,7 @@ const Home = ({ navigation }) => {
         let result = await ImagePicker.launchCameraAsync(options);
         if (result.cancelled) {
             setIsGettingImage(false);
+            setImage(null);
             return;
         }
         setImage(result);
@@ -52,6 +56,7 @@ const Home = ({ navigation }) => {
         let result = await ImagePicker.launchImageLibraryAsync(options);
         if (result.cancelled) {
             setIsGettingImage(false);
+            setImage(null);
             return;
         }
         setImage(result);
@@ -79,7 +84,7 @@ const Home = ({ navigation }) => {
                         icon={
                             <AntDesign name="logout" size={24} color="black" />
                         }
-                        onPress={() => navigation.navigate("Login")}
+                        onPress={() => logout()}
                     />
                 </View>
                 <View style={tw`flex-col justify-center items-center mt-7`}>
@@ -110,7 +115,7 @@ const Home = ({ navigation }) => {
                             icon={
                                 isFromCamera && isGettingImage ? (
                                     <ActivityIndicator
-                                        size="small"
+                                        size="large"
                                         color={colors.white}
                                     />
                                 ) : (
@@ -142,6 +147,30 @@ const Home = ({ navigation }) => {
             </ScrollView>
         </SafeAreaView>
     );
+
+    function logout() {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        };
+        api.delete(`users/logout`, config)
+            .then((resp) => {
+                console.log(resp.data);
+                if (resp.data.message === "JWT_REVOKED") {
+                    destroyUser(() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "Login" }],
+                        });
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("catch");
+                console.log(err);
+            });
+    }
 };
 
 export default Home;
