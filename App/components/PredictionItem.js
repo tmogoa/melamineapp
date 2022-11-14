@@ -6,7 +6,7 @@ import { colors } from "../assets/colors/colors";
 import IconButton from "./IconButton";
 import { fonts } from "../assets/fonts/fonts";
 
-const PredictionItem = ({ pred, onPress }) => {
+const PredictionItem = ({ pred, onPress, onDelete }) => {
     return (
         <TouchableOpacity
             style={tw`flex-row p-4 bg-gray-200 my-2 rounded justify-between`}
@@ -20,7 +20,7 @@ const PredictionItem = ({ pred, onPress }) => {
                 )}
                 <Text
                     style={[
-                        tw`ml-3 text-sm text-gray-600`,
+                        tw`ml-3 text-base text-gray-600`,
                         { fontFamily: fonts.interMedium },
                     ]}
                 >
@@ -36,6 +36,7 @@ const PredictionItem = ({ pred, onPress }) => {
                             style={tw`text-gray-600`}
                         />
                     }
+                    onPress={onDelete}
                 />
             </View>
         </TouchableOpacity>

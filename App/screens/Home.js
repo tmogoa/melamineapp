@@ -167,8 +167,14 @@ const Home = ({ navigation }) => {
                 }
             })
             .catch((err) => {
-                console.log("catch");
-                console.log(err);
+                if (err?.response?.status === 401) {
+                    destroyUser(() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "Login" }],
+                        });
+                    });
+                }
             });
     }
 };

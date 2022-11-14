@@ -5,10 +5,12 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
         (async () => {
             await getUser(setUser);
+            setIsReady(true);
         })();
     }, []);
 
@@ -16,6 +18,7 @@ export const AppContextProvider = ({ children }) => {
         user,
         storeUser,
         destroyUser,
+        isReady,
     };
 
     return (

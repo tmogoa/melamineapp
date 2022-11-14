@@ -22,7 +22,7 @@ import PastPredictionsScreen from "../screens/PastPredictionsScreen";
 
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
-    const { user } = useContext(AppContext);
+    const { user, isReady } = useContext(AppContext);
     let [fontLoaded] = useFonts({
         Inter_500Medium,
         Inter_400Regular,
@@ -30,6 +30,10 @@ export default function Navigation() {
     });
 
     if (!fontLoaded) {
+        return null;
+    }
+
+    if (!isReady) {
         return null;
     }
 
